@@ -1,31 +1,5 @@
 import pygame
 
-class Projectile:
-	def __init__(self, screen, carpet):
-		self.img = pygame.image.load('projectile.png')
-		self.scr = screen
-		self.x = carpet.x + carpet.w / 2
-		self.y = carpet.y - carpet.h
-		self.w = self.img.get_width()
-		self.h = self.img.get_height()
-		self.exists = True
-		
-		self.move()
-	
-	def draw(self):
-		if self.exists:
-			self.scr.blit(self.img, (self.x, self.y))
-		else:
-			self.x = - self.w
-			self.y = - self.h
-	
-	def move(self):
-		self.draw()
-		self.y -= 3
-	
-	def destroy(self):
-		self.exists = False
-		
 class Carpet:
 	def __init__(self, screen):
 		self.scr = screen
@@ -43,7 +17,6 @@ class Carpet:
 			self.x += 8
 		elif event.key == pygame.K_SPACE:
 			self.started = True
-			pass
 		
 		if self.x >= self.scr.get_width() - self.w:
 			self.x = self.scr.get_width() - self.w
@@ -52,7 +25,6 @@ class Carpet:
 	
 	def draw(self):
 		self.scr.blit(self.img, (self.x, self.y))
-		#pygame.draw.rect(self.img, pygame.Color('black'), (self.x, self.y, self.w, self.h), 0)
 	
 
 class Ball:
@@ -63,10 +35,8 @@ class Ball:
 		self.w = self.img.get_width()
 		self.h = self.img.get_height()
 		self.x = carpet.x - (carpet.w / 2) - (self.w / 2)
-		#self.x = 30
 		self.y = carpet.y - self.h - 60
-		#self.y = 30
-		self.xreverse = False
+		self.xreverse = True 
 		self.yreverse = True
 	
 	def move(self):
@@ -119,10 +89,7 @@ class Brick:
 		
 		if self.x <= obj.x <= self.x + self.w:
 			if self.y <= obj.y <= self.y + self.h:
-				if isinstance(obj, Ball):
-					obj.yreverse = not obj.yreverse
-				elif isinstance(obj, Projectile):
-					obj.destroy()
+				obj.yreverse = not obj.yreverse
 				self.touched = True
 				self.img = pygame.image.load('void.png')
 				return True
