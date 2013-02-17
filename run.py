@@ -1,13 +1,13 @@
 import pygame
 import sys
-import logic
+import arkanoid 
 
 
 screen = pygame.display.set_mode((320, 240))
 clock = pygame.time.Clock()
-carpet = logic.Carpet(screen)
-ball = logic.Ball(screen, carpet)
-bricks = logic.BrickSet(screen, 30, 270, 30)
+carpet = arkanoid.Carpet(screen)
+ball = arkanoid.Ball(screen, carpet)
+bricks = arkanoid.BrickSet(screen, 30, 270, 30)
 
 score = 0
 
@@ -15,14 +15,14 @@ while True:
 	screen.fill((0, 0, 0))
 	if bricks.check():
 		print 'Game won !'
-		break
+		sys.exit(0)
 	
 	try:
 		carpet.draw()
 		ball.move()
 		bricks.draw(ball)
 		ball.draw()
-	except logic.GameLost, e:
+	except arkanoid.GameLost, e:
 		print str(e)
 		sys.exit(0)
 	
